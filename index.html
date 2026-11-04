@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fff0f3" />
+  <title>A little birthday surprise for Kajal 🎀</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+    :root { --pink:#f7a9bd; --rose:#e9799c; --cream:#fffaf3; --ink:#553c4a; --peach:#ffe0d2; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0; min-height:100vh; color:var(--ink); font-family:'DM Sans',sans-serif;
+      background: radial-gradient(circle at 15% 15%, #fff 0, transparent 28%),
+                  linear-gradient(135deg,#fff3f5 0%,#fff4e8 48%,#fce8f2 100%);
+      overflow-x:hidden;
+    }
+    .floaties { position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
+    .floaty { position:absolute; bottom:-50px; opacity:.65; animation:floatUp linear infinite; }
+    @keyframes floatUp { from{transform:translateY(0) rotate(0);opacity:0} 10%{opacity:.65} to{transform:translateY(-110vh) rotate(25deg);opacity:0} }
+    .wrap { position:relative; z-index:1; width:min(760px,92vw); margin:0 auto; padding:34px 0 60px; }
+    .topline { text-align:center; font-size:.8rem; letter-spacing:.18em; text-transform:uppercase; color:#b56b84; }
+    .hero { text-align:center; padding:34px 12px 22px; }
+    .eyebrow { display:inline-block; padding:8px 14px; border:1px solid #f2c5d2; border-radius:99px; background:#fff9; font-size:.82rem; }
+    h1 { font-family:'Playfair Display',serif; font-size:clamp(2.7rem,10vw,5.3rem); line-height:1.04; margin:18px 0 10px; color:#713f59; }
+    h1 span { color:#e77c9e; font-style:italic; }
+    .subtitle { font-size:1.05rem; line-height:1.7; max-width:500px; margin:0 auto; color:#886879; }
+    .card {
+      background:rgba(255,255,255,.72); border:1px solid #fff; border-radius:28px;
+      box-shadow:0 20px 60px rgba(174,105,135,.13); backdrop-filter:blur(10px);
+      padding:clamp(20px,5vw,38px); margin:20px auto; text-align:center;
+    }
+    .gift-stage { min-height:220px; display:grid; place-items:center; position:relative; }
+    .gift { font-size:clamp(6rem,25vw,9rem); cursor:pointer; display:inline-block; filter:drop-shadow(0 12px 8px #e9a5b544); transition:transform .25s; animation:bob 2.6s ease-in-out infinite; }
+    .gift:hover { transform:scale(1.08) rotate(-4deg); }
+    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .hint { color:#a77b91; font-size:.9rem; margin-top:8px; }
+    button {
+      border:0; cursor:pointer; border-radius:999px; padding:14px 24px; font:600 1rem 'DM Sans',sans-serif;
+      color:white; background:linear-gradient(135deg,#e982a4,#d96f96); box-shadow:0 9px 22px #df8ba533;
+      transition:transform .2s,box-shadow .2s;
+    }
+    button:hover { transform:translateY(-2px); box-shadow:0 12px 28px #df8ba555; }
+    button:active { transform:scale(.98); }
+    .message { display:none; animation:fadeIn .8s ease both; }
+    .message.show { display:block; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(15px)} to{opacity:1;transform:translateY(0)} }
+    .letter { background:#fff9f2; border:1px dashed #edb6c6; border-radius:20px; padding:25px 22px; text-align:left; line-height:1.85; }
+    .letter h2 { text-align:center; font-family:'Playfair Display',serif; font-size:1.8rem; color:#d96f96; margin:0 0 12px; }
+    .letter p { margin:10px 0; }
+    .signature { text-align:center; color:#bc6b8b; font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; margin-top:18px!important; }
+    .cake-area { margin:28px auto 8px; }
+    .cake { font-size:5rem; cursor:pointer; display:inline-block; position:relative; }
+    .cake:hover { transform:scale(1.05); }
+    .cake-note { color:#9c7187; font-size:.9rem; }
+    .footer { text-align:center; padding:28px 10px 0; color:#b28a9d; font-size:.8rem; }
+    .heart { color:#e77c9e; }
+    .confetti { position:fixed; top:-20px; z-index:10; pointer-events:none; animation:fall 2.8s linear forwards; }
+    @keyframes fall { to { transform:translateY(110vh) rotate(720deg); opacity:.2; } }
+    .creator-credit {
+      position:fixed; right:14px; bottom:12px; z-index:20;
+      font-size:.72rem; letter-spacing:.02em; color:#a77b91;
+      background:rgba(255,250,243,.78); border:1px solid rgba(237,182,198,.55);
+      border-radius:999px; padding:7px 11px; backdrop-filter:blur(8px);
+      box-shadow:0 4px 14px rgba(174,105,135,.08); pointer-events:none;
+    }
+    .creator-credit .heart { color:#e77c9e; }
+
+    /* Tiny reaction stickers: playful, short-lived, and never cover the center for long. */
+    .reaction {
+      position:fixed; z-index:15; width:clamp(92px,24vw,150px); aspect-ratio:1;
+      border:3px solid rgba(255,255,255,.92); border-radius:20px;
+      box-shadow:0 12px 30px rgba(104,60,82,.22); overflow:hidden;
+      pointer-events:none; background:#fff; opacity:0;
+      animation:reactionPop 4.2s cubic-bezier(.2,.8,.2,1) forwards;
+    }
+    .reaction img,.reaction video { width:100%; height:100%; display:block; object-fit:cover; }
+    .reaction.video { aspect-ratio:4/5; width:clamp(86px,22vw,132px); border-radius:18px; }
+    @keyframes reactionPop {
+      0% { opacity:0; transform:translateY(35px) scale(.35) rotate(var(--tilt)); }
+      12% { opacity:1; transform:translateY(-8px) scale(1.08) rotate(var(--tilt)); }
+      22% { transform:translateY(0) scale(1) rotate(var(--tilt)); }
+      45% { transform:translateY(-9px) scale(1) rotate(var(--tilt)); }
+      65% { opacity:1; transform:translateY(0) scale(.98) rotate(var(--tilt)); }
+      100% { opacity:0; transform:translateY(-28px) scale(.72) rotate(var(--tilt)); }
+    }
+    @media(max-width:480px) {
+      .wrap{padding-top:22px}.hero{padding-top:25px}.card{border-radius:22px}.letter{padding:20px 17px}
+      .reaction { border-width:2px; }
+    }
+    @media(prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="floaties" id="floaties"></div>
+  <div class="creator-credit">made with <span class="heart">💜</span> by reverb</div>
+  <main class="wrap">
+    <div class="topline">✦ a tiny corner of the internet, just for you ✦</div>
+    <header class="hero">
+      <div class="eyebrow">🎀 birthday surprise incoming 🎀</div>
+      <h1>Happy Birthday,<br><span>Kajal!</span></h1>
+      <p class="subtitle">Some birthdays deserve more than a simple “hbd” text… so here's a little something made just for you. 💗</p>
+    </header>
+
+    <section class="card" id="giftCard">
+      <div class="gift-stage">
+        <div>
+          <div class="gift" id="gift" role="button" tabindex="0" aria-label="Open birthday gift">🎁</div>
+          <div class="hint">Psst… tap the gift to open your surprise!</div>
+        </div>
+      </div>
+      <button id="openBtn">Open your surprise ✨</button>
+    </section>
+
+    <section class="card message" id="message">
+      <div class="letter">
+        <h2>For you, Kajal 🌷</h2>
+        <p>Heyyy Kajal! 💕</p>
+        <p>Wishing you the happiest birthday! 😊 I hope your day is filled with laughter, little surprises, and all the things that make you genuinely happy.</p>
+        <p>May this new year of your life bring you beautiful memories 😎, success, good health, peace, and everything you've been quietly wishing for 😇😇.</p>
+        <p>Keep smiling, keep shining, and never stop being your lovely self. You deserve all the good things coming your way. 🫶</p>
+        <p>Aise hi gol gol gumti rho 🤭😁</p>
+        <p class="signature">Have the best birthday ever!<br>CHAKRIII !! 🤭😁🤗💖</p>
+      </div>
+
+      <div class="cake-area">
+        <div class="cake" id="cake" role="button" tabindex="0" aria-label="Blow out the birthday candles">🎂</div>
+        <div class="cake-note" id="cakeNote">Make a wish… then tap the cake to blow out the candles! 🕯️</div>
+      </div>
+      <button id="wishBtn">Make a wish & celebrate 🎉</button>
+    </section>
+  </main>
+
+  <script>
+    const floaties = document.getElementById('floaties');
+    const symbols = ['♡','✦','✿','💗','⋆'];
+    for(let i=0;i<16;i++){
+      const el=document.createElement('span'); el.className='floaty';
+      el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+      el.style.left=Math.random()*100+'%';
+      el.style.fontSize=(14+Math.random()*22)+'px';
+      el.style.animationDuration=(11+Math.random()*13)+'s';
+      el.style.animationDelay=(-Math.random()*18)+'s';
+      floaties.appendChild(el);
+    }
+
+    const message=document.getElementById('message');
+    const giftCard=document.getElementById('giftCard');
+    let surpriseOpened=false;
+    function openGift(){
+      if(surpriseOpened) return;
+      surpriseOpened=true;
+      message.classList.add('show');
+      giftCard.style.display='none';
+      message.scrollIntoView({behavior:'smooth',block:'start'});
+      confetti(55);
+    }
+    document.getElementById('openBtn').addEventListener('click',openGift);
+    document.getElementById('gift').addEventListener('click',openGift);
+    document.getElementById('gift').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openGift();}});
+
+    let cakeBlown=false;
+    function blowCake(){
+      cakeBlown=!cakeBlown;
+      document.getElementById('cake').textContent=cakeBlown?'🍰':'🎂';
+      document.getElementById('cakeNote').textContent=cakeBlown?'Wish made! May it come true ✨':'Make a wish… then tap the cake to blow out the candles! 🕯️';
+      if(cakeBlown) confetti(65);
+    }
+    document.getElementById('cake').addEventListener('click',blowCake);
+    document.getElementById('cake').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();blowCake();}});
+
+    const reactionAssets = [
+      {type:'image',src:'assets/surf-excel-meme.png',alt:'Funny Surf Excel meme'},
+      {type:'image',src:'assets/cat.png',alt:'Cute cat reaction'},
+      {type:'video',src:'assets/reaction-1.webm'},
+      {type:'video',src:'assets/reaction-2.webm'},
+      {type:'video',src:'assets/reaction-3.webm'},
+      {type:'video',src:'assets/reaction-4.webm'},
+      {type:'video',src:'assets/reaction-5.webm'}
+    ];
+    let reactionQueue=[], reactionTimer=null, reactionActive=0;
+    function showReaction(){
+      if(reactionActive>=2 || reactionQueue.length===0) return;
+      const item=reactionQueue.shift();
+      const el=document.createElement('div');
+      el.className='reaction'+(item.type==='video'?' video':'');
+      el.style.setProperty('--tilt',(Math.random()*14-7)+'deg');
+      // Keep stickers near screen edges so the birthday text stays readable.
+      const leftSide=Math.random()<.5;
+      el.style.left=leftSide?'3vw':'auto';
+      el.style.right=leftSide?'auto':'3vw';
+      el.style.top=(18+Math.random()*55)+'vh';
+      if(item.type==='video'){
+        const v=document.createElement('video');
+        v.src=item.src; v.autoplay=true; v.muted=true; v.loop=true; v.playsInline=true;
+        v.setAttribute('aria-label','Funny birthday reaction video');
+        el.appendChild(v);
+      } else {
+        const img=document.createElement('img'); img.src=item.src; img.alt=item.alt; el.appendChild(img);
+      }
+      document.body.appendChild(el);
+      reactionActive++;
+      const life=4200;
+      setTimeout(()=>{el.remove();reactionActive=Math.max(0,reactionActive-1);},life);
+      if(reactionQueue.length && reactionActive<2) reactionTimer=setTimeout(showReaction,900+Math.random()*700);
+    }
+    function startReactions(){
+      reactionQueue=reactionAssets.slice().sort(()=>Math.random()-.5);
+      showReaction();
+      setTimeout(showReaction,650);
+      // A few more tiny reactions arrive gradually, rather than all at once.
+      let count=0;
+      const interval=setInterval(()=>{
+        if(count++>=5){clearInterval(interval);return;}
+        if(reactionActive<2 && reactionQueue.length) showReaction();
+      },1450);
+    }
+    document.getElementById('wishBtn').addEventListener('click',()=>{
+      confetti(90);
+      document.getElementById('cakeNote').textContent='Sending you a whole universe of good wishes, Kajal! 💖';
+      startReactions();
+    });
+
+    function confetti(count){
+      const colors=['#f5a2bd','#ffd166','#c8b6ff','#a8e6cf','#ffb4a2','#f7d6e0'];
+      for(let i=0;i<count;i++){
+        const c=document.createElement('div');c.className='confetti';
+        c.textContent=['✦','♥','●','✿'][Math.floor(Math.random()*4)];
+        c.style.left=Math.random()*100+'vw';c.style.color=colors[Math.floor(Math.random()*colors.length)];
+        c.style.fontSize=(10+Math.random()*18)+'px';c.style.animationDuration=(1.8+Math.random()*2.2)+'s';
+        document.body.appendChild(c);setTimeout(()=>c.remove(),4500);
+      }
+    }
+  </script>
+</body>
+</html>
