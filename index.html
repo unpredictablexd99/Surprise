@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#fff0f3" />
-  <title>A little birthday surprise for Kajal 🎀</title>
+  <title>A little birthday surprise for Ankita 🎀</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
     :root { --pink:#f7a9bd; --rose:#e9799c; --cream:#fffaf3; --ink:#553c4a; --peach:#ffe0d2; }
@@ -76,6 +76,8 @@
       animation:reactionPop 4.2s cubic-bezier(.2,.8,.2,1) forwards;
     }
     .reaction img,.reaction video { width:100%; height:100%; display:block; object-fit:cover; }
+    .reaction video { background:#fff; }
+    .reaction.ready { opacity:1; }
     .reaction.video { aspect-ratio:4/5; width:clamp(86px,22vw,132px); border-radius:18px; }
     @keyframes reactionPop {
       0% { opacity:0; transform:translateY(35px) scale(.35) rotate(var(--tilt)); }
@@ -150,9 +152,32 @@
     const message=document.getElementById('message');
     const giftCard=document.getElementById('giftCard');
     let surpriseOpened=false;
+    // Warm the sticker assets in the background as soon as the gift opens.
+    // That gives them time to load while she reads the birthday message.
+    let reactionsPreloaded=false;
+    function preloadReactions(){
+      if(reactionsPreloaded) return;
+      reactionsPreloaded=true;
+      reactionAssets.forEach(item=>{
+        if(item.type==='image'){
+          const img=new Image();
+          img.decoding='async';
+          img.src=item.src;
+        } else {
+          const video=document.createElement('video');
+          video.preload='auto';
+          video.muted=true;
+          video.playsInline=true;
+          video.src=item.src;
+          video.load();
+        }
+      });
+    }
+
     function openGift(){
       if(surpriseOpened) return;
       surpriseOpened=true;
+      preloadReactions();
       message.classList.add('show');
       giftCard.style.display='none';
       message.scrollIntoView({behavior:'smooth',block:'start'});
@@ -196,6 +221,7 @@
       if(item.type==='video'){
         const v=document.createElement('video');
         v.src=item.src; v.autoplay=true; v.muted=true; v.loop=true; v.playsInline=true;
+        v.preload='auto';
         v.setAttribute('aria-label','Funny birthday reaction video');
         el.appendChild(v);
       } else {
@@ -219,6 +245,7 @@
       },1450);
     }
     document.getElementById('wishBtn').addEventListener('click',()=>{
+      preloadReactions();
       confetti(90);
       document.getElementById('cakeNote').textContent='Sending you a whole universe of good wishes, Kajal! 💖';
       startReactions();
